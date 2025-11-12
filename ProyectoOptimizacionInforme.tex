@@ -1,0 +1,414 @@
+\documentclass[12pt,a4paper]{article}
+
+% Paquetes básicos
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Configuración de geometría
+\geometry{
+    left=2.5cm,
+    right=2.5cm,
+    top=3cm,
+    bottom=3cm
+}
+
+% Configuración de hipervínculos
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=blue,
+}
+
+% Configuración de código Python
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    tabsize=2,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+}
+
+% Teoremas y definiciones
+\newtheorem{theorem}{Teorema}
+\newtheorem{definition}{Definición}
+\newtheorem{proposition}{Proposición}
+\newtheorem{corollary}{Corolario}
+
+% Información del documento
+\title{\textbf{Análisis de Función Irrestricta: Algoritmos de Optimización: \\
+       Método de Newton vs. Descenso del Gradiente}}
+\author{
+    Melissa Maureen Sales Brito \\
+    Universidad de La Habana \\
+    Facultad de Matemática y Computación
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Este trabajo presenta un análisis comparativo entre el método de Newton y el descenso del gradiente aplicados a la minimización de la función $f(x, y) = x^2 + y^2 + xy + \sin(x) + \cos(y)$. Se implementaron ambos algoritmos con búsqueda de línea de Armijo y se evaluó su desempeño en 26 escenarios diferentes, analizando convergencia, robustez y eficiencia computacional.
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introducción}
+
+\subsection{Objetivos}
+Dado un problema de optimización se desea analizar teóricamente que tipo de problema es, aplicar algoritmos conocidos adecuados para el problema y analizar la calidad de la solución obtenida. Se hará comparación de resultados y graficación de los mismos para llegar a conclusiones sobre el uso de los algoritmos.
+
+\section{Análisis Teórico}
+\label{sec:fundamentos}
+
+\subsection{Problema de Optimización}
+
+Problema de optimización sin restricciones:
+\begin{equation}
+\min_{x \in \mathbb{R}^n} f(x)
+\end{equation}
+
+Nuestra función objetivo es:
+\begin{equation}
+f(x, y) = x^2 + y^2 + xy + \sin(x) + \cos(y)
+\label{eq:funcion_objetivo}
+\end{equation}
+
+\subsection{Análisis de la función}
+
+\textbf{Continuidad:} La función es el resultado de la suma de funciones elementales continuas por lo que es una función elemental continua.
+
+\textbf{Variables Independientes:} $x, y \in \mathbb{R}$
+
+\textbf{Diferenciabilidad:} Es diferenciable en $\mathbb{R}^2$ ya que todos sus términos son diferenciables.
+
+\textbf{Acotación:} Teniendo en cuenta que: 
+\begin{equation}
+-1 \leq \sin(x) \leq 1 \quad \text{y} \quad -1 \leq \cos(y) \leq 1
+\end{equation}
+
+y que la parte cuadrática satisface:
+\begin{equation}
+x^2 + y^2 + xy = \left(x + \frac{y}{2}\right)^2 + \frac{3}{4}y^2 \geq 0 \quad \forall x, y \in \mathbb{R}
+\end{equation}
+
+podemos llegar a la cota inferior:
+\begin{equation}
+f(x, y) \geq -2
+\end{equation}
+
+\subsection{Gradiente y Hessiana}
+
+El gradiente de $f$ está dado por:
+\begin{equation}
+\nabla f(x, y) = \begin{pmatrix}
+2x + y + \cos(x) \\
+2y + x - \sin(y)
+\end{pmatrix}
+\label{eq:gradiente}
+\end{equation}
+
+La matriz Hessiana es:
+\begin{equation}
+\nabla^2 f(x, y) = \begin{pmatrix}
+2 - \sin(x) & 1 \\
+1 & 2 - \cos(y)
+\end{pmatrix}
+\label{eq:hessiana}
+\end{equation}
+
+\subsection{Convexidad}
+Todos los menores principales de la matriz Hessiana son mayores o iguales a cero pues el valor máximo que puede tomar tanto el seno como el coseno es 1.
+El determinante en el peor caso es 0 (cuando $sen(x) = cos(y) = 1$) por lo que podemos afirmar que $f(x,y)$ no es estrictamente convexa pero si es convexa dado que su matriz Hessina es semidefinida positiva.
+
+\subsection{Existencia de solución}
+Conocemos que la función es continua, no esta acotada pues solo posee cota inferior. Como sabemos que el seno y coseno son funciones acotadas:
+\begin{proposition}
+La función $f(x, y) = x^2 + y^2 + xy + \sin(x) + \cos(y)$ es coerciva.
+\end{proposition}
+
+\begin{proof}
+Notemos que:
+\[
+f(x, y) = x^2 + y^2 + xy + \sin(x) + \cos(y) \geq x^2 + y^2 + xy - 2
+\]
+
+Por lo tanto:
+\[
+\lim_{\|(x,y)\| \to \infty} f(x, y) = +\infty
+\]
+\end{proof}
+Luego existe mínimo global es decir solución para nuestro problema.
+
+\subsection{Selección de los Algoritmos}
+Hay dos filosofías generales en las que se basan los algoritmos para funciones irrestrictas:
+\begin{itemize}
+    \item Buscar una dirección donde la función objetivo disminuye su valor y tomar un nuevo punto moviéndose en esa dirección.
+    \item Realizar la búsqueda en una región.
+\end{itemize}
+Basandonos en esto, en el previo análisis de $f(x,y)$ y en la complejidad de implementación de los algoritmos se seleccionan dos algoritmos que emplean la primera filosofía:
+Descenso del Gradiente y Método de Newton.
+
+Si calculamos el gradiente de la función en el origen tenemos como resultado $(1,0) \neq (0,0)$ pero si ignoramos los términos trigonométricos entonces se anula el gradiente, al ser actodados entre $[-1,1]$ podemos llegar a una conclusión apresurada de que el óptimo podría estar en una vecindad estrictamente convexa del origen basandonos en la sustitución de la Hessiana en $(0,0)$.
+
+Con esta pista podemos hacer experimentos con los algoritmos aprovechando sus propiedades.
+
+
+
+\subsection{Método de Descenso del Gradiente}
+Tomamos un punto inicial $x_0$ y buscamos una dirección $d_0$ tal que $f$ disminuya su valor en el rayo que comienza en $x_0$ con dirección $d_0$.
+Para el caso de este método $d$ se iguala a $-\nabla f$ en cada iteración.
+Actualiza la solución mediante:
+\begin{equation}
+x_{k+1} = x_k - \alpha_k \nabla f(x_k)
+\end{equation}
+donde $\alpha_k$ se determina mediante búsqueda de línea de Armijo para nuestra implementación.
+Como condición de parada calculamos la ditancia de una iteracion a otra y comparamos con un epsilon, fundamentado en la aparente convergencia de la sucesión númerica obtenida durante el proceso iterativo.
+Otra condición que no hemos implementado pero que también es de parada es que la norma del gradiente de la función en la iteración actual sea lo suficientemente pequeña.
+Además se define un número máximo de iteraciones para evitar ciclos infinitos.
+
+Usa solo como información $\nabla f$.
+Posee convergencia lineal.
+Puede hacer zigzag.
+\subsection{Método de Newton}
+
+El método de Newton utiliza la dirección:
+\begin{equation}
+-\nabla f(x_k) = \nabla^2 f(x_k)d_k 
+\end{equation}
+y actualiza:
+\begin{equation}
+x_{k+1} = x_k + \alpha_k d_k
+\end{equation}
+
+Una de las posibles implementaciones es el calculo de la inversa de la Hessiana pero como esto es computacionalmnete costoso decidimos utilizar la variante de resolver el sistema definido por la igualdad anterior.
+
+\section{Diseño Experimental}
+\label{sec:experimentos}
+
+\subsection{Configuración de Experimentos}
+
+Se diseñaron 26 experimentos organizados en las siguientes categorías:
+
+\begin{table}[H]
+\centering
+\caption{Categorías de experimentos según distancia inicial}
+\label{tab:categorias}
+\begin{tabular}{@{}lccl@{}}
+\toprule
+\textbf{Categoría} & \textbf{Rango} & \textbf{Experimentos} & \textbf{Objetivo} \\ 
+\midrule
+Cerca & $[0, 5)$ & 4 & Comportamiento estándar \\
+Moderado & $[5, 15)$ & 4 & Casos típicos \\
+Lejos & $[15, 30)$ & 4 & Desafío medio \\
+Muy lejos & $[30, 60)$ & 4 & Casos difíciles \\
+Extremo & $[60, 150)$ & 4 & Límites de robustez \\
+Tolerancia & Variable & 4 & Sensibilidad a $\epsilon$ \\
+Asimétrico & Variable & 2 & Coordenadas dispares \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Puntos Iniciales}
+
+Los puntos iniciales se seleccionaron para cubrir:
+\begin{itemize}
+    \item Los cuatro cuadrantes del plano
+    \item Diferentes distancias al origen (desde 1.4 hasta 141.4 unidades)
+    \item Configuraciones asimétricas (e.g., $(30, -5)$, $(-3, 40)$)
+\end{itemize}
+
+\subsection{Parámetros del Algoritmo}
+
+\begin{table}[H]
+\centering
+\caption{Parámetros utilizados en los experimentos}
+\label{tab:parametros}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Parámetro} & \textbf{Valor} & \textbf{Descripción} \\ 
+\midrule
+$\alpha_0$ & 1.0 & Tamaño de paso inicial \\
+$m_1$ & 0.01 & Parámetro de Armijo \\
+$\tau$ & 0.5 & Factor de reducción \\
+$\epsilon$ & $10^{-6}$ & Tolerancia estándar \\
+max\_iter (GD) & 100--2000 & Máximo iteraciones \\
+max\_iter (Newton) & 50--150 & Máximo iteraciones \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Métricas de Evaluación}
+
+Para cada experimento se registraron:
+\begin{enumerate}
+    \item Número de iteraciones hasta convergencia
+    \item Trayectoria completa: $\{x_0, x_1, \ldots, x_k\}$
+    \item Estado de convergencia (éxito/fallo)
+    \item Punto fina
+    \item Evaluación final de la función
+\end{enumerate}
+
+\section{Resultados}
+\label{sec:resultados}
+
+\subsection{Resultados Generales}
+
+\subsubsection{Tasa de Éxito}
+
+\begin{table}[H]
+\centering
+\caption{Tasa de éxito por método y categoría}
+\label{tab:exito}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Categoría} & \textbf{Descenso Gradiente} & \textbf{Método Newton} \\ 
+\midrule
+Cerca (0-5) & 100\% (4/4) & 100\% (4/4) \\
+Moderado (5-15) & 100\% (4/4) & 100\% (4/4) \\
+Lejos (15-30) & 100\% (4/4) & 100\% (4/4) \\
+Muy lejos (30-60) & 100\% (4/4) & 100\% (4/4) \\
+Extremo (60+) & 100\% (4/4) & 100\% (4/4) \\
+Asimétrico & 100\% (2/2) & 100\% (2/2) \\
+Tolerancia & 100\% (4/4) & 100\% (4/4) \\
+\midrule
+\textbf{Total} & \textbf{100\% (26/26)} & \textbf{100\% (26/26)} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Número de Iteraciones}
+
+\begin{table}[H]
+\centering
+\caption{Promedio de iteraciones por categoría}
+\label{tab:iteraciones}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Categoría} & \textbf{GD} & \textbf{Newton} \\ 
+\midrule
+Cerca (0-5) & 31.0 & 6.0 \\
+Moderado (5-15) & 34.1 & 7.7 \\
+Lejos (15-30) & 27.0 & 7.0 \\
+Muy lejos (30-60) & 35.0 & 8.0 \\
+Extremo (60+) & 25.0 & 10.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Análisis de Convergencia}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{convergencia.png}
+    \caption{Comparación de la norma del gradiente vs iteraciones para diferentes puntos iniciales. }
+    \label{fig:convergencia}
+\end{figure}
+
+En la figura se puede apreciar la convergencia lineal ya expuesta del algoritmo de descenso máximo y la propiedad del método de Newton de tener una tendencia a converger cudráticamente si el punto inicial está cerca del óptimo, observemos que nuestra apreciación inicial de la vecindad del origen fue correcta.
+
+
+\subsection{Análisis Visual de Trayectorias}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{trayectoria.png}
+    \caption{Trayectorias de convergencia en el espacio de búsqueda. }
+    \label{fig:trayectorias}
+\end{figure}
+
+Observemos que Newton sigue una trayectoria más directa mientras que las altas probabilidades de que Descenso Máximo hiciera trayectoria en zigzag se cumplieron. Este es el caso particular de punto inicial cercano al origen, para la tercera iteracion ya Newton ha logrado la convergencia mientras que Descenso Máximo necesita 31 iteraciones en total.
+
+\subsection{Impacto de la Distancia Inicial}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{distancia_inicial.png}
+    \caption{Relación entre la distancia inicial al óptimo y el número de iteraciones requeridas. Newton muestra crecimiento logarítmico mientras que el descenso del gradiente muestra crecimiento irregular.}
+    \label{fig:distancia}
+\end{figure}
+
+Observación: La ventaja de Newton se incrementa con tolerancias más estrictas.
+
+\section{Conclusiones}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.1\textwidth]{funcion_superficie.png}
+    \caption{Superficie 3D de la funcón objetivo.}
+\end{figure}
+
+Del gráfico se obtuvo el punto mínimo en la malla utilizada que es $x = -0.696970, y = 0.636364, f = 0.609564$.
+
+Este valor de la función esta aproximado con gran exactitud por los resusltados obtenidos en el 100\% de los experimentos para ambos algoritmos, como ejemplo para el caso cercano tenemos:
+
+Newton:
+
+$final_x: [
+        -0.7105124332210255,
+        0.6629971112840694] $, 
+      $final_f: 0.609254208027612$
+
+Descenso Máximo:
+
+$final_x: [
+        -0.7105116125045395,
+        0.6629965782875904
+      ]$, 
+      $final_f: 0.6092542080282398$
+
+\subsection{Notas Finales}
+Se hizo uso consciente de la IA para  la generación supervisada del código referente a la graficación en plotly asi como para general la plantilla (sin contenido) de este informe.
+\subsection{Recomendaciones}
+Analizar dados los resultados de los experimentos variando la toleriancia y la simetría del punto inicial como se comporta cada  algoritmo.
+
+Notar los cambios no monótonos de las iteraciones por categoria de distancia(existen casos en los que la distancia del origen es mayor pero la cantidad de iteraciones es menor) para el descenso máximo del gradiente lo que nos da pie a investigar sobre el condicionamiento de la Hessiana según la región y otros factores que pueden influir en la convergencia.
+
+\begin{thebibliography}{9}
+
+\bibitem{bouza2021}
+Bouza Allende, G. (2021). \textit{Optimización Matemática I: Nota de clase}. Universidad de La Habana.
+
+\bibitem{bouza2021conferencia}
+Bouza Allende, G. (2021). \textit{Conferencia 5: Problemas de programación no lineal convexo}. Universidad de La Habana.
+
+\bibitem{rodriguez2021}
+Rodríguez, J. (2021). \textit{Clase práctica de algoritmos de optimización}. Universidad de La Habana.
+
+\bibitem{repositorio}
+Sales Brito, M. M. (2024). \textit{Repositorio del proyecto}. 
+\url{https://github.com/MaureenSales/OptimizacionProyecto.git}
+
+\end{thebibliography}
+
+\end{document}
