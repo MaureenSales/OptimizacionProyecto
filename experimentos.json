@@ -1,0 +1,186 @@
+{
+  "experimentos": [
+    {
+      "name": "exp1_gradiente_cerca",
+      "method": "gradiente",
+      "x0": [1.0, 1.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp2_newton_cerca",
+      "method": "newton",
+      "x0": [1.0, 1.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp3_gradiente_moderado",
+      "method": "gradiente",
+      "x0": [-5.0, 5.0],
+      "tol": 1e-06,
+      "max_iter": 200
+    },
+    {
+      "name": "exp4_newton_moderado",
+      "method": "newton",
+      "x0": [-5.0, 5.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp5_gradiente_lejos",
+      "method": "gradiente",
+      "x0": [-20.0, 20.0],
+      "tol": 1e-06,
+      "max_iter": 500
+    },
+    {
+      "name": "exp6_newton_lejos",
+      "method": "newton",
+      "x0": [-20.0, 20.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp7_gradiente_muy_lejos",
+      "method": "gradiente",
+      "x0": [-50.0, 50.0],
+      "tol": 1e-05,
+      "max_iter": 1000
+    },
+    {
+      "name": "exp8_newton_muy_lejos",
+      "method": "newton",
+      "x0": [-50.0, 50.0],
+      "tol": 1e-05,
+      "max_iter": 100
+    },
+    {
+      "name": "exp9_gradiente_extremo",
+      "method": "gradiente",
+      "x0": [-100.0, 100.0],
+      "tol": 1e-04,
+      "max_iter": 2000
+    },
+    {
+      "name": "exp10_newton_extremo",
+      "method": "newton",
+      "x0": [-100.0, 100.0],
+      "tol": 1e-04,
+      "max_iter": 150
+    },
+    {
+      "name": "exp11_gradiente_cuadrante1",
+      "method": "gradiente",
+      "x0": [10.0, 10.0],
+      "tol": 1e-06,
+      "max_iter": 300
+    },
+    {
+      "name": "exp12_newton_cuadrante1",
+      "method": "newton",
+      "x0": [10.0, 10.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp13_gradiente_cuadrante2",
+      "method": "gradiente",
+      "x0": [-10.0, 10.0],
+      "tol": 1e-06,
+      "max_iter": 300
+    },
+    {
+      "name": "exp14_newton_cuadrante2",
+      "method": "newton",
+      "x0": [-10.0, 10.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp15_gradiente_cuadrante3",
+      "method": "gradiente",
+      "x0": [-10.0, -10.0],
+      "tol": 1e-06,
+      "max_iter": 300
+    },
+    {
+      "name": "exp16_newton_cuadrante3",
+      "method": "newton",
+      "x0": [-10.0, -10.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp17_gradiente_cuadrante4",
+      "method": "gradiente",
+      "x0": [10.0, -10.0],
+      "tol": 1e-06,
+      "max_iter": 300
+    },
+    {
+      "name": "exp18_newton_cuadrante4",
+      "method": "newton",
+      "x0": [10.0, -10.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp19_gradiente_asimetrico1",
+      "method": "gradiente",
+      "x0": [30.0, -5.0],
+      "tol": 1e-06,
+      "max_iter": 500
+    },
+    {
+      "name": "exp20_newton_asimetrico1",
+      "method": "newton",
+      "x0": [30.0, -5.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp21_gradiente_asimetrico2",
+      "method": "gradiente",
+      "x0": [-3.0, 40.0],
+      "tol": 1e-06,
+      "max_iter": 500
+    },
+    {
+      "name": "exp22_newton_asimetrico2",
+      "method": "newton",
+      "x0": [-3.0, 40.0],
+      "tol": 1e-06,
+      "max_iter": 100
+    },
+    {
+      "name": "exp23_gradiente_tolerancia_alta",
+      "method": "gradiente",
+      "x0": [5.0, 5.0],
+      "tol": 1e-03,
+      "max_iter": 100
+    },
+    {
+      "name": "exp24_newton_tolerancia_alta",
+      "method": "newton",
+      "x0": [5.0, 5.0],
+      "tol": 1e-03,
+      "max_iter": 50
+    },
+    {
+      "name": "exp25_gradiente_tolerancia_baja",
+      "method": "gradiente",
+      "x0": [5.0, 5.0],
+      "tol": 1e-09,
+      "max_iter": 500
+    },
+    {
+      "name": "exp26_newton_tolerancia_baja",
+      "method": "newton",
+      "x0": [5.0, 5.0],
+      "tol": 1e-09,
+      "max_iter": 100
+    }
+  ]
+}
