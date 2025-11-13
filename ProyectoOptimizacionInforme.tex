@@ -85,13 +85,10 @@ Este trabajo presenta un análisis comparativo entre el método de Newton y el d
 
 \section{Introducción}
 
-\subsection{Objetivos}
 Dado un problema de optimización se desea analizar teóricamente que tipo de problema es, aplicar algoritmos conocidos adecuados para el problema y analizar la calidad de la solución obtenida. Se hará comparación de resultados y graficación de los mismos para llegar a conclusiones sobre el uso de los algoritmos.
 
 \section{Análisis Teórico}
 \label{sec:fundamentos}
-
-\subsection{Problema de Optimización}
 
 Problema de optimización sin restricciones:
 \begin{equation}
@@ -104,15 +101,14 @@ f(x, y) = x^2 + y^2 + xy + \sin(x) + \cos(y)
 \label{eq:funcion_objetivo}
 \end{equation}
 
-\subsection{Análisis de la función}
 
-\textbf{Continuidad:} La función es el resultado de la suma de funciones elementales continuas por lo que es una función elemental continua.
+La función es el resultado de la suma de funciones elementales continuas por lo que es una función elemental continua.
 
-\textbf{Variables Independientes:} $x, y \in \mathbb{R}$
+Variables Independientes: $x, y \in \mathbb{R}$
 
-\textbf{Diferenciabilidad:} Es diferenciable en $\mathbb{R}^2$ ya que todos sus términos son diferenciables.
+Es diferenciable en $\mathbb{R}^2$ ya que todos sus términos son diferenciables.
 
-\textbf{Acotación:} Teniendo en cuenta que: 
+Teniendo en cuenta que: 
 \begin{equation}
 -1 \leq \sin(x) \leq 1 \quad \text{y} \quad -1 \leq \cos(y) \leq 1
 \end{equation}
@@ -126,8 +122,6 @@ podemos llegar a la cota inferior:
 \begin{equation}
 f(x, y) \geq -2
 \end{equation}
-
-\subsection{Gradiente y Hessiana}
 
 El gradiente de $f$ está dado por:
 \begin{equation}
@@ -147,11 +141,11 @@ La matriz Hessiana es:
 \label{eq:hessiana}
 \end{equation}
 
-\subsection{Convexidad}
 Todos los menores principales de la matriz Hessiana son mayores o iguales a cero pues el valor máximo que puede tomar tanto el seno como el coseno es 1.
 El determinante en el peor caso es 0 (cuando $sen(x) = cos(y) = 1$) por lo que podemos afirmar que $f(x,y)$ no es estrictamente convexa pero si es convexa dado que su matriz Hessina es semidefinida positiva.
 
-\subsection{Existencia de solución}
+Existencia de solución:
+
 Conocemos que la función es continua, no esta acotada pues solo posee cota inferior. Como sabemos que el seno y coseno son funciones acotadas:
 \begin{proposition}
 La función $f(x, y) = x^2 + y^2 + xy + \sin(x) + \cos(y)$ es coerciva.
@@ -170,7 +164,7 @@ Por lo tanto:
 \end{proof}
 Luego existe mínimo global es decir solución para nuestro problema.
 
-\subsection{Selección de los Algoritmos}
+\section{Selección de los Algoritmos}
 Hay dos filosofías generales en las que se basan los algoritmos para funciones irrestrictas:
 \begin{itemize}
     \item Buscar una dirección donde la función objetivo disminuye su valor y tomar un nuevo punto moviéndose en esa dirección.
@@ -186,37 +180,71 @@ Con esta pista podemos hacer experimentos con los algoritmos aprovechando sus pr
 
 
 \subsection{Método de Descenso del Gradiente}
-Tomamos un punto inicial $x_0$ y buscamos una dirección $d_0$ tal que $f$ disminuya su valor en el rayo que comienza en $x_0$ con dirección $d_0$.
-Para el caso de este método $d$ se iguala a $-\nabla f$ en cada iteración.
-Actualiza la solución mediante:
-\begin{equation}
-x_{k+1} = x_k - \alpha_k \nabla f(x_k)
-\end{equation}
-donde $\alpha_k$ se determina mediante búsqueda de línea de Armijo para nuestra implementación.
-Como condición de parada calculamos la ditancia de una iteracion a otra y comparamos con un epsilon, fundamentado en la aparente convergencia de la sucesión númerica obtenida durante el proceso iterativo.
-Otra condición que no hemos implementado pero que también es de parada es que la norma del gradiente de la función en la iteración actual sea lo suficientemente pequeña.
-Además se define un número máximo de iteraciones para evitar ciclos infinitos.
+El método de Descenso del Gradiente es un algoritmo iterativo utilizado para minimizar una función diferenciable $f(x)$, basándose únicamente en la información proporcionada por su gradiente.
 
-Usa solo como información $\nabla f$.
-Posee convergencia lineal.
-Puede hacer zigzag.
+A partir de un punto inicial $x_0$, el algoritmo genera una secuencia de aproximaciones ${x_k}$ que idealmente convergen hacia un mínimo local de $f$. En cada iteración, se determina una dirección de descenso $d_k$ y un tamaño de paso $\alpha_k$ que indican cómo avanzar hacia una región de menor valor de la función.
+En este método, la dirección de búsqueda se define como el negativo del gradiente de la función en el punto actual:
+\begin{equation}
+d_k = -\nabla f(x_k),
+\end{equation}
+
+ya que el gradiente apunta hacia la dirección de mayor incremento de $f$, y por tanto su opuesto indica la dirección de descenso más pronunciado.
+
+La nueva aproximación se obtiene actualizando el punto actual en la dirección de descenso:
+
+\begin{align*}
+x_{k+1} = x_k + \alpha_k d_k = x_k - \alpha_k \nabla f(x_k),
+\end{align*}
+donde el parámetro $\alpha_k > 0$ controla el tamaño del paso.
+El valor de $\alpha_k$ se selecciona mediante una búsqueda de línea con la condición de Armijo, la cual garantiza que el paso elegido produzca una disminución suficiente en el valor de la función.
+Esto evita tanto pasos demasiado grandes (que podrían causar divergencia) como pasos demasiado pequeños (que ralentizan la convergencia).
+
+El proceso iterativo continúa hasta que se cumple alguno de los siguientes criterios:
+\begin{itemize}
+    \item La \textbf{distancia} entre dos iteraciones consecutivas $\|x_{k+1} \- x_k\|$ es menor que una tolerancia prefijada $\text{tol}$, indicando que las actualizaciones se han vuelto insignificantes.
+    \item (Opcional) La \textbf{norma del gradiente} $\|\nabla f(x_k)\|$ sea suficientemente pequeña, lo cual sugiere que estamos cerca de un punto crítico.
+    \item Se alcanza el \textbf{número máximo de iteraciones} $\texttt{max\_iter}$, para evitar ciclos infinitos en caso de no convergencia.
+\end{itemize}
+
 \subsection{Método de Newton}
 
-El método de Newton utiliza la dirección:
+El método de Newton varía el método de Descenso Máximo del Gradiente empleando la siguiente igualdad para hallar la dirección:
 \begin{equation}
 -\nabla f(x_k) = \nabla^2 f(x_k)d_k 
 \end{equation}
-y actualiza:
+quee se obtiene al aproximar $f$ por su expansión de Taylor de segundo orden alrededor del punto actual.
+
+actualiza con:
 \begin{equation}
 x_{k+1} = x_k + \alpha_k d_k
 \end{equation}
 
-Una de las posibles implementaciones es el calculo de la inversa de la Hessiana pero como esto es computacionalmnete costoso decidimos utilizar la variante de resolver el sistema definido por la igualdad anterior.
+Al incluir la información de la curvatura (Hessina), el método es más certero  al hallar la dirección y como en casi todo el dominio $H_f$ es bien condicionada tiene sentido utilizar este método.
+Para obtener la dirección de descenso tenemos dos opciones clásicas:
+\begin{itemize}
+    \item Cálculo de la inversa de la Hessiana:
+    
+    Recordemos que el determinante de $H_f$ se anula para $sen(x) = cos(y) = 1$, es decir $x = \frac{\pi}{2} + 2k\pi$ y $y = 2m\pi$, por lo que en ese punto $H_f$ no es invertible.
+    En el resto de puntos podemos usar la fórmula standard para matrices de $2x2$:
+
+    \begin{align*}
+    H^{-1}(x,y) = \frac{1}{\Delta(x,y)} 
+    \begin{pmatrix} 
+    2 - \cos y & -1 \\ 
+    -1 & 2 - \sin x 
+    \end{pmatrix}
+    \end{align*}
+
+    Problemas que podría tener el calcúlo de la inversa:
+    A medida que el determinante se acerca a 0 empeora el condicionamiento de la Hessina por ende se amplifican los errores númericos.
+    \item Resolver el sistema dado por la igualdad $(9)$:
+    
+    Resolver este sistema lineal utilizando factorizaciones o métodos lineales, es más estable numéricamente para nuestra función.
+\end{itemize}
+
 
 \section{Diseño Experimental}
 \label{sec:experimentos}
-
-\subsection{Configuración de Experimentos}
 
 Se diseñaron 26 experimentos organizados en las siguientes categorías:
 
@@ -239,7 +267,6 @@ Asimétrico & Variable & 2 & Coordenadas dispares \\
 \end{tabular}
 \end{table}
 
-\subsection{Puntos Iniciales}
 
 Los puntos iniciales se seleccionaron para cubrir:
 \begin{itemize}
@@ -248,7 +275,6 @@ Los puntos iniciales se seleccionaron para cubrir:
     \item Configuraciones asimétricas (e.g., $(30, -5)$, $(-3, 40)$)
 \end{itemize}
 
-\subsection{Parámetros del Algoritmo}
 
 \begin{table}[H]
 \centering
@@ -268,7 +294,6 @@ max\_iter (Newton) & 50--150 & Máximo iteraciones \\
 \end{tabular}
 \end{table}
 
-\subsection{Métricas de Evaluación}
 
 Para cada experimento se registraron:
 \begin{enumerate}
@@ -281,10 +306,6 @@ Para cada experimento se registraron:
 
 \section{Resultados}
 \label{sec:resultados}
-
-\subsection{Resultados Generales}
-
-\subsubsection{Tasa de Éxito}
 
 \begin{table}[H]
 \centering
@@ -307,8 +328,6 @@ Tolerancia & 100\% (4/4) & 100\% (4/4) \\
 \end{tabular}
 \end{table}
 
-\subsubsection{Número de Iteraciones}
-
 \begin{table}[H]
 \centering
 \caption{Promedio de iteraciones por categoría}
@@ -326,7 +345,6 @@ Extremo (60+) & 25.0 & 10.0 \\
 \end{tabular}
 \end{table}
 
-\subsection{Análisis de Convergencia}
 
 \begin{figure}[H]
     \centering
@@ -337,9 +355,6 @@ Extremo (60+) & 25.0 & 10.0 \\
 
 En la figura se puede apreciar la convergencia lineal ya expuesta del algoritmo de descenso máximo y la propiedad del método de Newton de tener una tendencia a converger cudráticamente si el punto inicial está cerca del óptimo, observemos que nuestra apreciación inicial de la vecindad del origen fue correcta.
 
-
-\subsection{Análisis Visual de Trayectorias}
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.1\textwidth]{trayectoria.png}
@@ -348,8 +363,6 @@ En la figura se puede apreciar la convergencia lineal ya expuesta del algoritmo 
 \end{figure}
 
 Observemos que Newton sigue una trayectoria más directa mientras que las altas probabilidades de que Descenso Máximo hiciera trayectoria en zigzag se cumplieron. Este es el caso particular de punto inicial cercano al origen, para la tercera iteracion ya Newton ha logrado la convergencia mientras que Descenso Máximo necesita 31 iteraciones en total.
-
-\subsection{Impacto de la Distancia Inicial}
 
 \begin{figure}[H]
     \centering
@@ -387,12 +400,56 @@ $final_x: [
       ]$, 
       $final_f: 0.6092542080282398$
 
+
+
+\vspace{1cm} Para determinar los puntos de estabilidad se resolvió el sistema no lineal
+\[
+\nabla f(x,y) = 0
+\]
+mediante el método de Newton y Descenso Máximo del Gradiente, considerando múltiples puntos iniciales en una malla extensa del plano.  
+El procedimiento converge hacia un único punto crítico dentro de la tolerancia numérica utilizada:
+\[
+(x^*, y^*) \approx (-0.71051243,\; 0.66299711),
+\]
+en el cual el valor de la función es:
+\[
+f(x^*, y^*) \approx 0.6092542.
+\]
+
+\noindent
+La matriz Hessiana evaluada en dicho punto es:
+\[
+H(x^*,y^*) =
+\begin{pmatrix}
+2 - \sin(-0.7105) & 1 \\[4pt]
+1 & 2 - \cos(0.6630)
+\end{pmatrix}
+\approx
+\begin{pmatrix}
+2.652 & 1 \\[4pt]
+1 & 1.229
+\end{pmatrix},
+\]
+cuyos autovalores son aproximadamente:
+\[
+\lambda_1 \approx 0.6997, \qquad \lambda_2 \approx 3.1644.
+\]
+
+Dado que ambos autovalores son positivos, la matriz Hessiana es definida positiva en el punto crítico, por lo que éste corresponde a un mínimo local estricto.  
+Además, como la función $f(x,y)$ es coerciva (tiende a $+\infty$ cuando $\|(x,y)\|\to\infty$) y la Hessiana es semidefinida positiva en todo el dominio, se concluye que dicho mínimo local es también el mínimo global de la función.
+
+El número de condición de la Hessiana en el óptimo se estima como:
+\[
+\kappa(H) = \frac{\lambda_{\max}}{\lambda_{\min}} \approx \frac{3.1644}{0.6997} \approx 4.52,
+\]
+lo cual indica que la matriz está bien condicionada, garantizando estabilidad numérica en el cálculo de la dirección de Newton.
+
 \subsection{Notas Finales}
-Se hizo uso consciente de la IA para  la generación supervisada del código referente a la graficación en plotly asi como para general la plantilla (sin contenido) de este informe.
+Se hizo uso consciente de la IA para  la generación supervisada del código referente a la graficación en plotly.
 \subsection{Recomendaciones}
 Analizar dados los resultados de los experimentos variando la toleriancia y la simetría del punto inicial como se comporta cada  algoritmo.
 
-Notar los cambios no monótonos de las iteraciones por categoria de distancia(existen casos en los que la distancia del origen es mayor pero la cantidad de iteraciones es menor) para el descenso máximo del gradiente lo que nos da pie a investigar sobre el condicionamiento de la Hessiana según la región y otros factores que pueden influir en la convergencia.
+Notar los cambios no monótonos de las iteraciones por categoria de distancia(existen casos en los que la distancia del origen es mayor pero la cantidad de iteraciones es menor) para el descenso máximo del gradiente lo que nos da pie a investigar sobre el condicionamiento de la Hessiana según la región, como afecta \begin{math} \alpha \end{math} en la convergencia del método y otros factores que pueden influir.
 
 \begin{thebibliography}{9}
 

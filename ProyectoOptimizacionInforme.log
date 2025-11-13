@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.21)  12 NOV 2025 05:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.21)  13 NOV 2025 10:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -510,51 +510,50 @@ LaTeX Info: Redefining \% on input line 1.
 \openout4 = `ProyectoOptimizacionInforme.toc'.
 
  [2] [3] [4] [5] [6]
-<convergencia.png, id=191, 931.98187pt x 534.49687pt>
+<convergencia.png, id=112, 931.98187pt x 534.49687pt>
 File: convergencia.png Graphic file (type png)
 <use convergencia.png>
-Package pdftex.def Info: convergencia.png  used on input line 333.
+Package pdftex.def Info: convergencia.png  used on input line 351.
 (pdftex.def)             Requested size: 500.77129pt x 287.19675pt.
 
-Overfull \hbox (45.52718pt too wide) in paragraph at lines 333--334
+Overfull \hbox (45.52718pt too wide) in paragraph at lines 351--352
  [][] 
  []
 
 [7]
-<trayectoria.png, id=200, 1266.98344pt x 469.00218pt>
+<trayectoria.png, id=121, 1266.98344pt x 469.00218pt>
 File: trayectoria.png Graphic file (type png)
 <use trayectoria.png>
-Package pdftex.def Info: trayectoria.png  used on input line 345.
+Package pdftex.def Info: trayectoria.png  used on input line 360.
 (pdftex.def)             Requested size: 500.77129pt x 185.3719pt.
 
-Overfull \hbox (45.52718pt too wide) in paragraph at lines 345--346
+Overfull \hbox (45.52718pt too wide) in paragraph at lines 360--361
  [][] 
  []
 
-[8 <./convergencia.png>]
-<distancia_inicial.png, id=207, 554.07pt x 351.3125pt>
+<distancia_inicial.png, id=122, 554.07pt x 351.3125pt>
 File: distancia_inicial.png Graphic file (type png)
 <use distancia_inicial.png>
-Package pdftex.def Info: distancia_inicial.png  used on input line 356.
+Package pdftex.def Info: distancia_inicial.png  used on input line 369.
 (pdftex.def)             Requested size: 500.77129pt x 317.51846pt.
 
-Overfull \hbox (45.52718pt too wide) in paragraph at lines 356--357
+Overfull \hbox (45.52718pt too wide) in paragraph at lines 369--370
  [][] 
  []
 
-[9 <./trayectoria.png>]
-<funcion_superficie.png, id=214, 832.61063pt x 586.44093pt>
+[8 <./convergencia.png> <./trayectoria.png>]
+<funcion_superficie.png, id=131, 832.61063pt x 586.44093pt>
 File: funcion_superficie.png Graphic file (type png)
 <use funcion_superficie.png>
-Package pdftex.def Info: funcion_superficie.png  used on input line 367.
+Package pdftex.def Info: funcion_superficie.png  used on input line 380.
 (pdftex.def)             Requested size: 500.77129pt x 352.71736pt.
 
-Overfull \hbox (45.52718pt too wide) in paragraph at lines 367--368
+Overfull \hbox (45.52718pt too wide) in paragraph at lines 380--381
  [][] 
  []
 
-[10 <./distancia_inicial.png>] [11 <./funcion_superficie.png>]
-Underfull \hbox (badness 3657) in paragraph at lines 409--411
+[9 <./distancia_inicial.png>] [10 <./funcion_superficie.png>] [11]
+Underfull \hbox (badness 3657) in paragraph at lines 466--468
 []\OT1/cmr/m/n/12 Sales Bri-to, M. M. (2024). \OT1/cmr/m/it/12 Re-po-si-to-rio del pro-yec-to\OT1/cmr/m/n/12 . [][]$\OT1/cmtt/m/n/12 https : / / github . com /
  []
 
@@ -566,25 +565,21 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `ProyectoOptimizacionInforme.out' has not changed.
-(rerunfilecheck)             Checksum: 49931610EEDA30EF223D794A6ADB6ABC;4182.
+(rerunfilecheck)             Checksum: 3314D8B6D8EB55547BEE5781EFD3E49B;1404.
  ) 
 Here is how much of TeX's memory you used:
- 15817 strings out of 474486
- 253901 string characters out of 5738999
- 1936542 words of memory out of 5000000
- 37835 multiletter control sequences out of 15000+600000
- 569511 words of font info for 80 fonts, out of 8000000 for 9000
+ 15796 strings out of 474486
+ 253591 string characters out of 5738999
+ 1940542 words of memory out of 5000000
+ 37829 multiletter control sequences out of 15000+600000
+ 569847 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,10n,79p,622b,512s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,14n,79p,622b,580s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb><C:/Users/Melissa Maureen/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on ProyectoOptimizacionInforme.pdf (12 pages, 579474 bytes).
+Output written on ProyectoOptimizacionInforme.pdf (12 pages, 575911 bytes).
 PDF statistics:
- 318 PDF objects out of 1000 (max. 8388607)
- 69 named destinations out of 1000 (max. 500000)
- 229 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 235 PDF objects out of 1000 (max. 8388607)
+ 53 named destinations out of 1000 (max. 500000)
+ 101 words of extra memory for PDF output out of 10000 (max. 10000000)
 
